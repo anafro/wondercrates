@@ -8,7 +8,6 @@ import ru.anafro.wondercrates.Wondercrates;
 import ru.anafro.wondercrates.utils.arrays.CircularArray;
 import ru.anafro.wondercrates.utils.chat.Chat;
 import ru.anafro.wondercrates.utils.interfaces.ChestInterface;
-import ru.anafro.wondercrates.utils.inventories.Inventories;
 import ru.anafro.wondercrates.utils.sounds.Sounds;
 import ru.anafro.wondercrates.utils.time.TimeSpan;
 

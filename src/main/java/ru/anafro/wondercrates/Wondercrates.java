@@ -1,10 +1,8 @@
 package ru.anafro.wondercrates;
 
-import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.anafro.wondercrates.drops.CrateDrop;
-import ru.anafro.wondercrates.drops.CrateDropRarity;
 import ru.anafro.wondercrates.drops.CrateDropTape;
 import ru.anafro.wondercrates.utils.events.Events;
 import ru.anafro.wondercrates.utils.chat.Chat;

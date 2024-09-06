@@ -1,0 +1,6 @@
+api-version: 1.21.1
+name: "wondercrates"
+version: 1.0.0
+author: "anafro"
+description: "Wonderful crates"
+main: ru.anafro.wondercrates.Wondercrates

@@ -68,7 +68,7 @@ public class OpenCrateInterface extends ChestInterface {
         every(TimeSpan.ticks(8), this::updateDecorativePaneEffect);
     }
 
-    private void updateDecorativePaneEffect(Integer step) {
+    private void updateDecorativePaneEffect(int step) {
         for (int x = 0; x < width; x += 1) {
             setItem(DECORATIVE_PANE_MATERIALS.get(x + step), x, 0, " ");
             setItem(DECORATIVE_PANE_MATERIALS.get(x - step), x, height - 1, " ");

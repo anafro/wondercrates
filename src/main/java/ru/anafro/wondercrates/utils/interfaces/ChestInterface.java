@@ -7,6 +7,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import ru.anafro.wondercrates.utils.events.Events;
 import ru.anafro.wondercrates.utils.inventories.ChestButtonEventListener;
@@ -17,10 +18,13 @@ import ru.anafro.wondercrates.utils.time.TimeSpan;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Consumer;
 
-public class ChestInterface implements Listener {
+public class ChestInterface implements Listener, InventoryHolder {
     private static final TimeSpan UPDATE_PERIOD = TimeSpan.TICK;
+    private final UUID uuid;
     private final List<ChestButtonEventListener> listeners;
     private final Inventory inventory;
     private final String title;
@@ -30,9 +34,10 @@ public class ChestInterface implements Listener {
     protected final int width = Inventories.WIDTH;
 
     public ChestInterface(String title, int height) {
+        this.uuid = UUID.randomUUID();
         this.title = title;
         this.height = height;
-        this.inventory = Inventories.create(title, height);
+        this.inventory = Inventories.create(this, title, height);
         this.listeners = new ArrayList<>();
         this.updateScheduler = Scheduler.timer(runnable -> {
             onUpdate();
@@ -76,11 +81,11 @@ public class ChestInterface implements Listener {
 
     @EventHandler
     public void onItemClick(InventoryClickEvent event) {
-        if (!event.getView().getTitle().equals(title)) {
+        if (event.getClickedInventory().getHolder().equals(this)) {
             return;
         }
 
-        event.setCancelled(true);
+        Events.cancel(event);
 
         for (var listener : listeners) {
             if (listener.isTriggeredBy(event)) {
@@ -108,5 +113,23 @@ public class ChestInterface implements Listener {
 
     protected void unregisterEvents() {
         HandlerList.unregisterAll(this);
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChestInterface that = (ChestInterface) o;
+        return Objects.equals(uuid, that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(uuid);
     }
 }

@@ -2,6 +2,7 @@ package ru.anafro.wondercrates.utils.inventories;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import ru.anafro.wondercrates.utils.chat.Chat;
 
@@ -9,8 +10,8 @@ public class Inventories {
     public static final int SINGLE_CHEST_INVENTORY_HEIGHT = 3;
     public static final int WIDTH = 9;
 
-    public static Inventory create(String title, int height) {
-        return Bukkit.createInventory(null, WIDTH * height, Chat.translateColorCodes(title));
+    public static Inventory create(InventoryHolder inventoryHolder, String title, int height) {
+        return Bukkit.createInventory(inventoryHolder, WIDTH * height, Chat.translateColorCodes(title));
     }
 
     public static void setItem(Inventory inventory, ItemStack itemStack, int x, int y) {

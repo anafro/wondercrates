@@ -47,8 +47,8 @@ public class CrateClickEventListener implements Listener {
         Events.cancel(event);
     }
 
-    private static boolean isCrate(Block block) {
-        return block == null || block.getType() != CRATE_MATERIAL;
+    private boolean isCrate(Block block) {
+        return block != null && block.getType() == CRATE_MATERIAL;
     }
 
     private void splashEffectItems(World world, Block crate) {

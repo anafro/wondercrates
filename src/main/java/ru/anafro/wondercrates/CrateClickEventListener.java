@@ -7,10 +7,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import ru.anafro.wondercrates.interfaces.OpenCrateInterface;
+import ru.anafro.wondercrates.interfaces.CrateOpeningInterface;
+import ru.anafro.wondercrates.keys.CrateKeysStorage;
 import ru.anafro.wondercrates.utils.events.Events;
 import ru.anafro.wondercrates.utils.items.ItemStacks;
-import ru.anafro.wondercrates.utils.chat.Chat;
 import ru.anafro.wondercrates.utils.math.Vectors;
 import ru.anafro.wondercrates.utils.sounds.Sounds;
 
@@ -19,13 +19,17 @@ import java.util.UUID;
 import static org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK;
 
 public class CrateClickEventListener implements Listener {
-    private static final CrateKeysStorage KEY_STORAGE = new CrateKeysStorage(10);
-    private static final Sound CRATE_CLICK_SOUND = Sound.ENTITY_PLAYER_LEVELUP;
+    private static final Sound CRATE_CLICK_SOUND = Sound.BLOCK_ENDER_CHEST_OPEN;
     private static final Material CRATE_MATERIAL = Material.ENDER_CHEST;
     public static final String CRATE_DROP_ITEM_NAME_PREFIX = "Crate-Item@";
     private static final Material CRATE_DROP_ITEM_MATERIAL = Material.MELON;
     private static final int CRATE_DROP_ITEM_VELOCITY = 1;
     private static final int CRATE_DROP_ITEM_COUNT = 8;
+    private final CrateKeysStorage keysStorage;
+
+    public CrateClickEventListener(CrateKeysStorage keysStorage) {
+        this.keysStorage = keysStorage;
+    }
 
     @EventHandler
     public void onChestOpen(PlayerInteractEvent event) {
@@ -37,12 +41,12 @@ public class CrateClickEventListener implements Listener {
             return;
         }
 
-        var openCrateInterface = new OpenCrateInterface(KEY_STORAGE, player);
+        var crateLocation = block.getLocation();
+        var crateOpeningInterface = new CrateOpeningInterface(crateLocation, keysStorage, player);
 
         splashEffectItems(world, block);
-        openCrateInterface.showTo(player);
+        crateOpeningInterface.showTo(player);
 
-        Chat.send(player, "You have &a" + KEY_STORAGE.getKeys(player) + "&r keys.");
         Sounds.play(player, CRATE_CLICK_SOUND, 1.00);
         Events.cancel(event);
     }

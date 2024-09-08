@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import ru.anafro.wondercrates.utils.events.Events;
 import ru.anafro.wondercrates.utils.inventories.ChestButtonEventListener;
 import ru.anafro.wondercrates.utils.inventories.Inventories;
@@ -22,12 +23,17 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class ChestInterface implements Listener, InventoryHolder {
+public abstract class ChestInterface implements Listener, InventoryHolder {
     private static final TimeSpan UPDATE_PERIOD = TimeSpan.TICK;
+    protected final int LEFT;
+    protected final int RIGHT;
+    protected final int TOP;
+    protected final int BOTTOM;
+    protected final int HORIZONTAL_CENTER;
+    protected final int VERTICAL_CENTER;
     private final UUID uuid;
     private final List<ChestButtonEventListener> listeners;
     private final Inventory inventory;
-    private final String title;
     private final Scheduler updateScheduler;
     protected int tick = 0;
     protected final int height;
@@ -35,7 +41,6 @@ public class ChestInterface implements Listener, InventoryHolder {
 
     public ChestInterface(String title, int height) {
         this.uuid = UUID.randomUUID();
-        this.title = title;
         this.height = height;
         this.inventory = Inventories.create(this, title, height);
         this.listeners = new ArrayList<>();
@@ -44,6 +49,13 @@ public class ChestInterface implements Listener, InventoryHolder {
             tick += UPDATE_PERIOD.getTicks();
         }, UPDATE_PERIOD);
         Events.registerListener(this);
+
+        this.LEFT = 0;
+        this.RIGHT = width - 1;
+        this.TOP = 0;
+        this.BOTTOM = height - 1;
+        this.HORIZONTAL_CENTER = width / 2;
+        this.VERTICAL_CENTER = height / 2;
     }
 
     public ChestInterface(String title) {
@@ -75,13 +87,19 @@ public class ChestInterface implements Listener, InventoryHolder {
         setItem(material, 1, x, y, " ");
     }
 
+    public void setItemIfEmpty(Material material, int x, int y) {
+        if (!hasItemAt(x, y)) {
+            setItem(material, x, y);
+        }
+    }
+
     public void addEventListener(int x, int y, Consumer<InventoryClickEvent> clickAction) {
         listeners.add(new ChestButtonEventListener(x, y, clickAction));
     }
 
     @EventHandler
     public void onItemClick(InventoryClickEvent event) {
-        if (event.getClickedInventory().getHolder().equals(this)) {
+        if (!holds(event.getClickedInventory())) {
             return;
         }
 
@@ -94,7 +112,7 @@ public class ChestInterface implements Listener, InventoryHolder {
         }
     }
 
-    public void onUpdate() {}
+    public abstract void onUpdate();
 
     public boolean hasItemAt(int x, int y) {
         return Inventories.getItem(inventory, x, y) != null;
@@ -115,8 +133,22 @@ public class ChestInterface implements Listener, InventoryHolder {
         HandlerList.unregisterAll(this);
     }
 
+    private boolean holds(Inventory inventory) {
+        if (inventory == null) {
+            return false;
+        }
+
+        var holder = inventory.getHolder();
+
+        if (holder == null) {
+            return false;
+        }
+
+        return holder.equals(this);
+    }
+
     @Override
-    public Inventory getInventory() {
+    public @NotNull Inventory getInventory() {
         return inventory;
     }
 

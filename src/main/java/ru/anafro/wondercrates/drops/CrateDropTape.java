@@ -25,7 +25,8 @@ public class CrateDropTape {
             rarityCursor -= drop.getRarity().getPercent();
 
             if (rarityCursor <= 0) {
-                return i + drops.size() * Randoms.nextIntAround(TAPE_SPINS, TAPE_SPINS_RANGE);
+                var extraSpins = Randoms.nextIntAround(TAPE_SPINS, TAPE_SPINS_RANGE);
+                return i + drops.size() * extraSpins;
             }
         }
 

@@ -4,3 +4,9 @@ version: 1.0.0
 author: "anafro"
 description: "Wonderful crates"
 main: ru.anafro.wondercrates.Wondercrates
+commands:
+  wondercrates:
+    description: "Allows to give, set, and get the crate keys of players"
+    usage: "/wondercrates <command> <player> (number of crates)"
+    permission: "wondercrates.command"
+    permission-message: "You can't use the Wondercrates command!"

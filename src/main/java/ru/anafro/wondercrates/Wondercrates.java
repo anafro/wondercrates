@@ -1,11 +1,20 @@
 package ru.anafro.wondercrates;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.anafro.wondercrates.commands.WondercratesCommandExecutor;
 import ru.anafro.wondercrates.drops.CrateDrop;
 import ru.anafro.wondercrates.drops.CrateDropTape;
+import ru.anafro.wondercrates.keys.CrateKeysStorage;
+import ru.anafro.wondercrates.keys.InMemoryCrateKeysStorage;
+import ru.anafro.wondercrates.utils.commands.Commands;
 import ru.anafro.wondercrates.utils.events.Events;
 import ru.anafro.wondercrates.utils.chat.Chat;
+import ru.anafro.wondercrates.utils.particles.Particles;
+import ru.anafro.wondercrates.utils.time.Scheduler;
+import ru.anafro.wondercrates.utils.time.TimeSpan;
 
 import static org.bukkit.Material.*;
 import static ru.anafro.wondercrates.drops.CrateDropRarity.*;
@@ -13,6 +22,7 @@ import static ru.anafro.wondercrates.drops.CrateDropRarity.*;
 @SuppressWarnings("unused")
 public class Wondercrates extends JavaPlugin implements Listener {
     private static Wondercrates instance;
+    private final CrateKeysStorage keysStorage = new InMemoryCrateKeysStorage();
     private final CrateDropTape tape = new CrateDropTape(
             new CrateDrop(LEGENDARY, DIAMOND_BLOCK, 64),
             new CrateDrop(LEGENDARY, ENCHANTED_GOLDEN_APPLE, 8),
@@ -34,7 +44,6 @@ public class Wondercrates extends JavaPlugin implements Listener {
             new CrateDrop(COMMON, RED_BED),
             new CrateDrop(COMMON, TORCH, 16),
             new CrateDrop(COMMON, LAVA_BUCKET)
-
     );
 
     public static Wondercrates getInstance() {
@@ -49,8 +58,9 @@ public class Wondercrates extends JavaPlugin implements Listener {
     public void onEnable() {
         Wondercrates.instance = this;
         Chat.sendToConsole("&a&lWondercrates plugin is enabled. Enjoy!");
+        Commands.setExecutor("wondercrates", new WondercratesCommandExecutor(keysStorage));
         Events.registerListeners(
-                new CrateClickEventListener(),
+                new CrateClickEventListener(keysStorage),
                 new CrateItemPickUpEventListener()
         );
     }

@@ -32,7 +32,7 @@ public class CrateDropRarity {
             this.chatColor = ChatColor.GRAY;
             this.name = "Common";
         } else {
-            throw new IllegalArgumentException("The rarityPercent must be between 0 and 100, not %o.".formatted(rarityPercent));
+            throw new IllegalArgumentException("The rarityPercent must be between 0 and 100, not %d.".formatted(rarityPercent));
         }
     }
 

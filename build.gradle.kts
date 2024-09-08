@@ -22,6 +22,7 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation("org.jetbrains:annotations:15.0")
 }
 
 val targetJavaVersion = 21
@@ -53,12 +54,6 @@ tasks.register<Exec>("runServer") {
 
 tasks.jar {
     destinationDirectory.set(file(serverDir + "\\plugins"))
-//    doLast {
-//        copy {
-//            from("/build/libs/gradle-playground-1.0-SNAPSHOT.jar")
-//            into("D:\\minecraft servers\\polygon\\plugins")
-//        }
-//    }
 }
 
 tasks.test {

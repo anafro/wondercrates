@@ -1,6 +1,6 @@
 package ru.anafro.wondercrates.utils.items;
 
-import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,6 +33,16 @@ public final class ItemStacks {
         editMeta(itemStack, itemMeta -> itemMeta.setLore(translateLoreColorCodes(lore)));
     }
 
+    public static void drop(ItemStack itemStack, Location location) {
+        var world = location.getWorld();
+
+        if (world == null) {
+            throw new UnsupportedOperationException("Can't drop the item at the location with a world unset.");
+        }
+
+        world.dropItemNaturally(location, itemStack);
+    }
+
     private static ItemMeta getMeta(ItemStack itemStack) {
         var itemMeta = itemStack.getItemMeta();
 
@@ -44,8 +54,7 @@ public final class ItemStacks {
     }
 
     private static List<String> translateLoreColorCodes(String... lore) {
-        return Arrays.asList(lore)
-                .stream()
+        return Arrays.stream(lore)
                 .map(line -> "&f" + line)
                 .map(Chat::translateColorCodes)
                 .toList();

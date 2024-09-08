@@ -39,10 +39,14 @@ public final class CrateDrop {
         return rarity;
     }
 
+    public ItemStack toItemStack() {
+        return new ItemStack(material, count);
+    }
+
     public void giveTo(Player player) {
         var location = player.getLocation();
         var world = player.getWorld();
-        var itemStack = new ItemStack(material, count);
+        var itemStack = toItemStack();
 
         world.dropItem(location, itemStack);
     }

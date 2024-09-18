@@ -129,10 +129,11 @@ public class CrateSpinInterface extends ChestInterface {
         var color = Colors.gradientPick(0.65, 1, 1, progress, 1, 1, 1);
 
         for (double angle = 0; angle < 2 * Math.PI; angle += 2 * Math.PI / rays) {
+            var alpha = 2 * Math.PI * spinSpeed * progress + angle;
             var location = crateLocation.clone().add(
-                    radius * Math.sin(2 * Math.PI * spinSpeed * progress + angle) + 0.5,
+                    radius * Math.sin(alpha) + 0.5,
                     progress * height,
-                    radius * Math.cos(2 * Math.PI * spinSpeed * progress + angle) + 0.5
+                    radius * Math.cos(alpha) + 0.5
             );
 
             Particles.spawnColored(location, count, size, color);

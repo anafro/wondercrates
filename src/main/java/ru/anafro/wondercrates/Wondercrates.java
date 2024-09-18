@@ -12,9 +12,6 @@ import ru.anafro.wondercrates.keys.InMemoryCrateKeysStorage;
 import ru.anafro.wondercrates.utils.commands.Commands;
 import ru.anafro.wondercrates.utils.events.Events;
 import ru.anafro.wondercrates.utils.chat.Chat;
-import ru.anafro.wondercrates.utils.particles.Particles;
-import ru.anafro.wondercrates.utils.time.Scheduler;
-import ru.anafro.wondercrates.utils.time.TimeSpan;
 
 import static org.bukkit.Material.*;
 import static ru.anafro.wondercrates.drops.CrateDropRarity.*;

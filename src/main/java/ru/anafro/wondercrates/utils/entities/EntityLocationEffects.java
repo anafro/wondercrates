@@ -2,7 +2,7 @@ package ru.anafro.wondercrates.utils.entities;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import ru.anafro.wondercrates.utils.events.Randoms;
+import ru.anafro.wondercrates.utils.randoms.Randoms;
 import ru.anafro.wondercrates.utils.math.Vectors;
 
 public final class EntityLocationEffects {

@@ -1,7 +1,7 @@
 package ru.anafro.wondercrates.drops;
 
 import ru.anafro.wondercrates.utils.arrays.CircularArray;
-import ru.anafro.wondercrates.utils.events.Randoms;
+import ru.anafro.wondercrates.utils.randoms.Randoms;
 
 public class CrateDropTape {
     private static final int TAPE_SPINS = 2;

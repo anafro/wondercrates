@@ -2,7 +2,7 @@ package ru.anafro.wondercrates.utils.math;
 
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
-import ru.anafro.wondercrates.utils.events.Randoms;
+import ru.anafro.wondercrates.utils.randoms.Randoms;
 
 public final class Vectors {
     private Vectors() {}

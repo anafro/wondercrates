@@ -1,4 +1,4 @@
-package ru.anafro.wondercrates.utils.events;
+package ru.anafro.wondercrates.utils.randoms;
 
 import java.util.Random;
 

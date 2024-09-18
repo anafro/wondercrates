@@ -3,7 +3,6 @@ package ru.anafro.wondercrates.utils.particles;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import ru.anafro.wondercrates.utils.colors.Colors;
 
 public final class Particles {
     private Particles() {}
